@@ -47,7 +47,7 @@ export const Paper = ({
 
   return (
     <div>
-      <div className="w-full max-w-4xl rounded-lg border bg-card p-4 text-card-foreground shadow-sm md:p-6">
+      <div className="w-full max-w-4xl rounded-lg border bg-card p-4 pb-16 text-card-foreground shadow-sm md:p-6">
         {/* Header Section */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
           <div className="space-y-1 flex-1">
