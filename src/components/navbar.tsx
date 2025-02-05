@@ -14,7 +14,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="shadow-md">
+    <nav className="sticky top-0 z-50 bg-background shadow-md">
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
         <Link
           href="/"
