@@ -63,7 +63,7 @@ export const PaperList = () => {
 
   return (
     <div
-      className="h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth"
+      className="h-[calc(100dvh-4rem)] snap-y snap-mandatory overflow-y-auto scroll-smooth"
       onScroll={handleScroll}
     >
       <AnimatePresence mode="popLayout">
