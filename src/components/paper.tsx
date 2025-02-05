@@ -1,5 +1,14 @@
-import { Twitter, Linkedin, Link as LinkIcon } from "lucide-react";
+import { Twitter, Linkedin, Heart, Copy, Check } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Share } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { useFavoritesStore } from "@/store/favorites";
 
 interface PaperProps {
   title: string;
@@ -18,60 +27,122 @@ export const Paper = ({
   description,
   link,
 }: PaperProps) => {
+  const shortenedDescription =
+    description.length > 100
+      ? description.substring(0, 100) + "..."
+      : description;
+
+  const [copied, setCopied] = useState(false);
+  const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
+  const favorite = isFavorite(title);
+
+  const toggleFavorite = () => {
+    const paperData = { title, authors, date, keyPoints, description, link };
+    if (favorite) {
+      removeFavorite(title);
+    } else {
+      addFavorite(paperData);
+    }
+  };
+
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
-      <div className="w-full max-w-4xl rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+    <div>
+      <div className="w-full max-w-4xl rounded-lg border bg-card p-4 text-card-foreground shadow-sm md:p-6">
+        {/* Header Section */}
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+          <div className="space-y-1 flex-1">
+            <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
+              {title}
+            </h2>
             <p className="text-sm text-muted-foreground">
               {authors.join(", ")}
             </p>
           </div>
-          <div className="flex items-center space-x-2">
-            <Link
-              href="https://twitter.com/intent/tweet"
-              target="_blank"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Share on Twitter"
+
+          {/* Social Links */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="hover:text-primary transition-colors"
+                  aria-label="Share options"
+                >
+                  <Share className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="min-w-[200px]">
+                <DropdownMenuItem
+                  onSelect={() => {
+                    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      `Check out "${title}" ${link || ""}`
+                    )}${link ? `&url=${encodeURIComponent(link)}` : ""}`;
+                    window.open(twitterUrl, "_blank");
+                  }}
+                >
+                  <Twitter className="mr-2 h-4 w-4" />
+                  Share on Twitter
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => {
+                    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                      link || window.location.href
+                    )}&title=${encodeURIComponent(title)}`;
+                    window.open(linkedinUrl, "_blank");
+                  }}
+                >
+                  <Linkedin className="mr-2 h-4 w-4" />
+                  Share on LinkedIn
+                </DropdownMenuItem>
+                {link && (
+                  <DropdownMenuItem
+                    onSelect={() => {
+                      navigator.clipboard.writeText(link);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                  >
+                    {copied ? (
+                      <Check className="mr-2 h-4 w-4 text-green-500" />
+                    ) : (
+                      <Copy className="mr-2 h-4 w-4" />
+                    )}
+                    Copy Link
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <button
+              onClick={toggleFavorite}
+              className={`text-muted-foreground hover:text-primary transition-colors ${
+                favorite ? "text-primary" : ""
+              }`}
+              aria-label={
+                favorite ? "Remove from favorites" : "Add to favorites"
+              }
             >
-              <Twitter className="h-5 w-5" />
-            </Link>
-            <Link
-              href="https://www.linkedin.com/sharing/share-offsite"
-              target="_blank"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Share on LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </Link>
-            {link && (
-              <Link
-                href={link}
-                target="_blank"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="View source"
-              >
-                <LinkIcon className="h-5 w-5" />
-              </Link>
-            )}
+              <Heart className={`h-5 w-5 ${favorite ? "fill-current" : ""}`} />
+            </button>
           </div>
         </div>
 
-        <div className="mt-6 space-y-4">
+        {/* Content Section */}
+        <div className="mt-4 space-y-4 md:mt-6">
           <div className="space-y-2">
             {keyPoints.map((point, index) => (
-              <div key={index} className="flex items-start space-x-2">
-                <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
+              <div key={index} className="flex items-start gap-2">
+                <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
                 <p className="text-sm text-muted-foreground">{point}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <p className="text-sm text-muted-foreground">
+            {shortenedDescription}
+          </p>
         </div>
 
-        <div className="mt-6 flex items-center justify-between">
+        {/* Footer Section */}
+        <div className="mt-4 flex flex-col gap-2 md:mt-6 md:flex-row md:items-center md:justify-between">
           <time
             className="text-sm text-muted-foreground"
             dateTime={new Date(date).toISOString()}
@@ -80,7 +151,7 @@ export const Paper = ({
           </time>
           <Link
             href={link || "#"}
-            className="inline-flex items-center space-x-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             <span>Continue Reading</span>
             <svg
