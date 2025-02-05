@@ -1,30 +1,30 @@
-# PapergramNext
+# 📚 PapergramNext
 
 PapergramNext (PapergramN) is a modern web application that helps you stay up-to-date with the latest developments in AI, Machine Learning, Computer Vision, and Natural Language Processing. It provides a clean, distraction-free interface for browsing and managing research papers from arXiv.
 
-## Features
+## ✨ Features
 
-- Real-time updates from arXiv
-- Infinite scroll for seamless paper browsing
-- Key points extraction for quick understanding
-- Direct links to original papers
-- Paper favoriting system
-- Social sharing capabilities
-- Clean, modern user interface
-- Mobile-responsive design
+- 🔄 Real-time updates from arXiv
+- ♾️ Infinite scroll for seamless paper browsing
+- 🎯 Key points extraction for quick understanding
+- 🔗 Direct links to original papers
+- ❤️ Paper favoriting system
+- 🌐 Social sharing capabilities
+- 🎨 Clean, modern user interface
+- 📱 Mobile-responsive design
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- React Query
-- Zustand
+- ⚡ Next.js
+- ⚛️ React
+- 📝 TypeScript
+- 🎭 Tailwind CSS
+- 🔄 React Query
+- 🏪 Zustand
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
+### 📋 Prerequisites
 
 - Node.js (v18 or higher)
 - npm or yarn
@@ -56,14 +56,14 @@ PapergramNext (PapergramN) is a modern web application that helps you stay up-to
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Usage
+## 📖 Usage
 
-- **Browse Papers**: Scroll through the home page to view papers. Each paper card shows the title, authors, publication date, and key points.
-- **Favorite Papers**: Click the heart icon on any paper to add it to your favorites.
-- **Share Papers**: Use the share button to share papers on Twitter or LinkedIn.
-- **View Details**: Click "Continue Reading" to view the full paper on arXiv.
+- **🔍 Browse Papers**: Scroll through the home page to view papers. Each paper card shows the title, authors, publication date, and key points.
+- **❤️ Favorite Papers**: Click the heart icon on any paper to add it to your favorites.
+- **🌐 Share Papers**: Use the share button to share papers on Twitter or LinkedIn.
+- **📄 View Details**: Click "Continue Reading" to view the full paper on arXiv.
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Here's how you can help:
 
@@ -74,15 +74,15 @@ Contributions are welcome! Here's how you can help:
 5. Push to the branch (`git push origin feature/improvement`)
 6. Create a Pull Request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Inspired by the original [Papergram](https://github.com/cneuralnetwork/papergram/) project
-- Built with modern web technologies for enhanced user and developer experience
+- 💡 Inspired by the original [Papergram](https://github.com/cneuralnetwork/papergram/) project
+- 🔧 Built with modern web technologies for enhanced user and developer experience
 
-## Contact
+## 📬 Contact
 
 For questions or suggestions, please open an issue in the GitHub repository.
