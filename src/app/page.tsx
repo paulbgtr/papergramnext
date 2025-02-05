@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { PaperList } from "@/components/paper-list";
 
 export default function Home() {
-  return <Button>hi</Button>;
+  return <PaperList />;
 }
