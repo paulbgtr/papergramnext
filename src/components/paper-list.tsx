@@ -52,20 +52,32 @@ export const PaperList = () => {
 
   return (
     <div
-      className="h-[calc(100vh-4rem)] snap-y snap-mandatory overflow-y-scroll scroll-smooth"
+      className="h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth"
       onScroll={handleScroll}
     >
       {papers.map((paper, index) => (
         <div
           key={index}
-          className="h-full snap-start transition-all duration-500 ease-in-out"
+          className="min-h-[calc(100dvh-4rem)] snap-always snap-start flex flex-col"
         >
-          <PaperComponent {...paper} />
+          <div className="flex h-auto min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-8 sm:py-0">
+            <PaperComponent {...paper} />
+          </div>
         </div>
       ))}
       {isFetchingNextPage && (
-        <div className="flex h-screen items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <div className="min-h-[calc(100dvh-4rem)] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <p className="text-sm text-muted-foreground">
+              Loading more papers...
+            </p>
+          </div>
+        </div>
+      )}
+      {!hasNextPage && papers.length > 0 && (
+        <div className="min-h-[calc(100dvh-4rem)] flex items-center justify-center">
+          <p className="text-muted-foreground">No more papers to load</p>
         </div>
       )}
     </div>
