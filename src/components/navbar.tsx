@@ -41,7 +41,7 @@ export const Navbar = () => {
 
           {/* GitHub Link */}
           <Link
-            href="https://github.com/gibusoruporu/papergramnext"
+            href="https://github.com/paulbgtr/papergramnext"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub Repository"
