@@ -27,10 +27,17 @@ export const Paper = ({
   description,
   link,
 }: PaperProps) => {
-  const shortenedDescription =
-    description.length > 100
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showAllAuthors, setShowAllAuthors] = useState(false);
+
+  const displayedAuthors =
+    authors.length > 3 && !showAllAuthors ? authors.slice(0, 2) : authors;
+
+  const shortenedDescription = !isExpanded
+    ? description.length > 100
       ? description.substring(0, 100) + "..."
-      : description;
+      : description
+    : description;
 
   const [copied, setCopied] = useState(false);
   const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
@@ -54,9 +61,28 @@ export const Paper = ({
             <h2 className="text-xl font-mono font-semibold tracking-tight md:text-2xl">
               {title}
             </h2>
-            <p className="font-mono text-sm text-muted-foreground">
-              {authors.join(", ")}
-            </p>
+            <div className="font-mono text-sm text-muted-foreground">
+              <span>{displayedAuthors.join(", ")}</span>
+              {authors.length > 3 && !showAllAuthors && (
+                <>
+                  {" "}
+                  <button
+                    onClick={() => setShowAllAuthors(true)}
+                    className="text-primary hover:text-primary/80"
+                  >
+                    +{authors.length - 2} more
+                  </button>
+                </>
+              )}
+              {showAllAuthors && (
+                <button
+                  onClick={() => setShowAllAuthors(false)}
+                  className="ml-2 text-primary hover:text-primary/80"
+                >
+                  Show less
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Social Links */}
@@ -127,7 +153,11 @@ export const Paper = ({
 
         {/* Content Section */}
         <div className="mt-4 space-y-4 md:mt-6">
-          <div className="space-y-2">
+          <div
+            className={`space-y-2 ${
+              !isExpanded ? "max-h-[200px] overflow-hidden" : ""
+            }`}
+          >
             {keyPoints.map((point, index) => (
               <div key={index} className="flex items-start gap-2">
                 <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
@@ -141,6 +171,13 @@ export const Paper = ({
           <p className="font-mono text-sm text-muted-foreground">
             {shortenedDescription}
           </p>
+
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full text-center text-sm font-mono text-primary hover:text-primary/80"
+          >
+            {isExpanded ? "Show less" : "Show more"}
+          </button>
         </div>
 
         {/* Footer Section */}
