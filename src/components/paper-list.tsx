@@ -1,43 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Paper as PaperComponent } from "./paper";
-import type { Paper } from "@/data/papers";
+
+const fetchPapers = async ({ pageParam = 0 }) => {
+  const response = await fetch(`/api/papers?start=${pageParam}`);
+  const data = await response.json();
+  return data;
+};
 
 export const PaperList = () => {
-  const [papers, setPapers] = useState<Paper[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [startIndex, setStartIndex] = useState(0);
-
-  const fetchPapers = async () => {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(`/api/papers?start=${startIndex}`);
-      const data = await response.json();
-
-      if (data.papers) {
-        setPapers((prev) => [...prev, ...data.papers]);
-        setStartIndex((prev) => prev + data.papers.length);
-      }
-    } catch (error) {
-      console.error("Error fetching papers:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPapers();
-  }, []);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["papers"],
+      queryFn: fetchPapers,
+      getNextPageParam: (lastPage, pages) => {
+        if (!lastPage.papers?.length) return undefined;
+        return pages.reduce((acc, page) => acc + page.papers.length, 0);
+      },
+      initialPageParam: 0,
+    });
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
-    if (scrollHeight - scrollTop <= clientHeight * 1.5 && !isLoading) {
-      fetchPapers();
+    if (
+      scrollHeight - scrollTop <= clientHeight * 1.5 &&
+      !isFetchingNextPage &&
+      hasNextPage
+    ) {
+      fetchNextPage();
     }
   };
+
+  const papers = data?.pages.flatMap((page) => page.papers) ?? [];
+
+  if (status === "pending") {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-destructive">Error loading papers</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -52,7 +63,7 @@ export const PaperList = () => {
           <PaperComponent {...paper} />
         </div>
       ))}
-      {isLoading && (
+      {isFetchingNextPage && (
         <div className="flex h-screen items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
         </div>
