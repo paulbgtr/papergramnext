@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ScrollText, Github } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ScrollText, Github, Heart } from "lucide-react";
 
 export const Navbar = () => {
-  const router = useRouter();
-
   const navLinks = [
-    { name: "Home", href: "/" },
+    {
+      name: "Favorites",
+      href: "/favorites",
+      icon: <Heart className="h-4 w-4" />,
+    },
     { name: "About", href: "/about" },
   ];
 
@@ -20,7 +21,7 @@ export const Navbar = () => {
           className="flex items-center space-x-2 transition-opacity hover:opacity-80"
         >
           <ScrollText className="w-5 h-5" />
-          <span className="text-lg font-bold text-primary">Papergram</span>
+          <span className="text-lg font-bold text-primary">PapergramN</span>
         </Link>
 
         {/* Navigation Links */}
@@ -29,11 +30,12 @@ export const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-sm font-medium transition-transform duration-200 hover:scale-105 hover:text-primary ${
-                router.pathname === link.href ? "text-secondary" : ""
-              }`}
+              className={`text-sm font-medium transition-transform duration-200 hover:scale-105 hover:text-primary`}
             >
-              {link.name}
+              <span className="flex items-center gap-1">
+                {link.icon}
+                {link.name}
+              </span>
             </Link>
           ))}
 
