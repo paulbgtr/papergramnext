@@ -1,0 +1,54 @@
+"use client";
+
+import Link from "next/link";
+import { ScrollText, Github } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+export const Navbar = () => {
+  const router = useRouter();
+
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+  ];
+
+  return (
+    <nav className="shadow-md">
+      <div className="container mx-auto flex h-16 max-w-screen-2xl items-center px-4 md:px-8">
+        <Link
+          href="/"
+          className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+        >
+          <ScrollText className="w-5 h-5" />
+          <span className="text-lg font-bold text-primary">Papergram</span>
+        </Link>
+
+        {/* Navigation Links */}
+        <div className="ml-auto flex items-center space-x-4 md:space-x-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`text-sm font-medium transition-transform duration-200 hover:scale-105 hover:text-primary ${
+                router.pathname === link.href ? "text-secondary" : ""
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+
+          {/* GitHub Link */}
+          <Link
+            href="https://github.com/gibusoruporu/papergramnext"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub Repository"
+            className="p-2 transition-colors hover:text-primary"
+          >
+            <Github className="h-5 w-5" />
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+};
