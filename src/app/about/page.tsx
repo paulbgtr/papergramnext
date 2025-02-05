@@ -44,8 +44,8 @@ export default function About() {
         <p className="text-base text-muted-foreground">
           PapergramN is inspired by the original Papergram project. While
           maintaining the core vision of making research papers accessible,
-          we've rebuilt it from the ground up using modern technologies like
-          Next.js and Tailwind CSS for an enhanced user and developer
+          we&apos;ve rebuilt it from the ground up using modern technologies
+          like Next.js and Tailwind CSS for an enhanced user and developer
           experience.
         </p>
       </section>

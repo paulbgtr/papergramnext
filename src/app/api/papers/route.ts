@@ -1,6 +1,33 @@
 import { NextResponse } from 'next/server';
 import { XMLParser } from 'fast-xml-parser';
 
+interface ArxivAuthor {
+  name: string;
+}
+
+interface ArxivEntry {
+  title: string;
+  author: ArxivAuthor | ArxivAuthor[];
+  published: string;
+  summary: string;
+  id: string;
+}
+
+interface ArxivResponse {
+  feed: {
+    entry?: ArxivEntry[];
+  };
+}
+
+interface Paper {
+  title: string;
+  authors: string[];
+  date: string;
+  keyPoints: string[];
+  description: string;
+  link: string;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const start = searchParams.get('start') || '0';
@@ -17,13 +44,13 @@ export async function GET(request: Request) {
 
     const text = await response.text();
     const parser = new XMLParser();
-    const result = parser.parse(text);
+    const result = parser.parse(text) as ArxivResponse;
     const entries = result.feed.entry || [];
 
-    const papers = entries.map((entry: any) => ({
+    const papers: Paper[] = entries.map((entry) => ({
       title: entry.title,
       authors: Array.isArray(entry.author) 
-        ? entry.author.map((author: any) => author.name)
+        ? entry.author.map((author: ArxivAuthor) => author.name)
         : [entry.author.name],
       date: new Date(entry.published).toLocaleDateString(),
       keyPoints: [

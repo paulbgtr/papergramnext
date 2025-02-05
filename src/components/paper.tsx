@@ -1,6 +1,6 @@
 import { Twitter, Linkedin, Heart, Copy, Check } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Share } from "lucide-react";
 import {
   DropdownMenu,
