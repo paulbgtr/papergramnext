@@ -46,15 +46,15 @@ export const Paper = ({
   };
 
   return (
-    <div>
-      <div className="w-full max-w-4xl rounded-lg border bg-card p-4 pb-16 text-card-foreground shadow-sm md:p-6">
+    <div className="group">
+      <div className="w-full max-w-4xl rounded-lg border bg-card p-4 pb-16 text-card-foreground shadow-sm hover:border-primary/50 md:p-6">
         {/* Header Section */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
           <div className="space-y-1 flex-1">
-            <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
+            <h2 className="text-xl font-mono font-semibold tracking-tight md:text-2xl">
               {title}
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="font-mono text-sm text-muted-foreground">
               {authors.join(", ")}
             </p>
           </div>
@@ -64,7 +64,7 @@ export const Paper = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-primary"
                   aria-label="Share options"
                 >
                   <Share className="h-5 w-5" />
@@ -131,12 +131,14 @@ export const Paper = ({
             {keyPoints.map((point, index) => (
               <div key={index} className="flex items-start gap-2">
                 <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
-                <p className="text-sm text-muted-foreground">{point}</p>
+                <p className="font-mono text-sm text-muted-foreground">
+                  {point}
+                </p>
               </div>
             ))}
           </div>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="font-mono text-sm text-muted-foreground">
             {shortenedDescription}
           </p>
         </div>
@@ -144,14 +146,14 @@ export const Paper = ({
         {/* Footer Section */}
         <div className="mt-4 flex flex-col gap-2 md:mt-6 md:flex-row md:items-center md:justify-between">
           <time
-            className="text-sm text-muted-foreground"
+            className="font-mono text-sm text-muted-foreground"
             dateTime={new Date(date).toISOString()}
           >
             {date}
           </time>
           <Link
             href={link || "#"}
-            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+            className="inline-flex items-center gap-1 text-sm font-mono font-medium text-primary hover:text-primary/80"
           >
             <span>Continue Reading</span>
             <svg
